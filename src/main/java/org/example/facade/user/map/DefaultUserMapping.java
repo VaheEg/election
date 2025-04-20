@@ -11,6 +11,7 @@ public class DefaultUserMapping implements UserMapping {
         return new UserResponseDto(
                 user.getFirstName(),
                 user.getLastName(),
-                user.getLocation());
+                user.getLocation()
+        );
     }
 }

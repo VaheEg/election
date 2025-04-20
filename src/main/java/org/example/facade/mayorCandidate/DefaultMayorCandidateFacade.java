@@ -24,9 +24,9 @@ public class DefaultMayorCandidateFacade implements MayorCandidateFacade {
     @Override
     public GenericResponseDto<MayorCandidateResponseDto> create(Integer userId) {
 
-        var validateCreateOptional = mayorCandidateValidation.createValidate(userId);
-        if(validateCreateOptional.isPresent()){
-            return new GenericResponseDto<>(validateCreateOptional.get());
+        var createValidatedOptional = mayorCandidateValidation.createValidate(userId);
+        if(createValidatedOptional.isPresent()){
+            return new GenericResponseDto<>(createValidatedOptional.get());
         }
 
         Optional<MayorCandidate> mayorCandidateOptional = mayorCandidateService.create(new CreateMayorCandidateParams(userId));
@@ -45,9 +45,9 @@ public class DefaultMayorCandidateFacade implements MayorCandidateFacade {
     @Override
     public GenericResponseDto<MayorCandidateResponseDto> getById(Integer id) {
 
-        var validateGetById = mayorCandidateValidation.getValidate(id);
-        if(validateGetById.isPresent()) {
-            return new GenericResponseDto<>(validateGetById.get());
+        var getByIdValidatedOptional = mayorCandidateValidation.getValidate(id);
+        if(getByIdValidatedOptional.isPresent()) {
+            return new GenericResponseDto<>(getByIdValidatedOptional.get());
         }
 
         var mayorCandidateOptional = mayorCandidateService.getById(id);

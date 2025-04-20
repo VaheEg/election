@@ -7,6 +7,7 @@ public record UserCreateRequestDto(
         String lastName,
         String location,
         Date yearOfBirth,
-        String passportId
+        String socialSecurityNumber,
+        String password
 ) {
 }

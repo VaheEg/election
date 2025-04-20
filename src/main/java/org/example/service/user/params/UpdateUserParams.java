@@ -5,6 +5,7 @@ public record UpdateUserParams(
         String firstName,
         String lastName,
         String location,
-        String passportId
+        String socialSecurityNumber,
+        String password
 ) {
 }

@@ -7,7 +7,8 @@ public record CreateUserParams(
         String lastName,
         Date yearOfBirth,
         String location,
-        String passwordId
+        String socialSecurityNumber,
+        String password
 ) {
 
 }

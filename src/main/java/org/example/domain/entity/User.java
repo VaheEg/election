@@ -28,24 +28,24 @@ public class User {
     private String lastName;
 
     @Column(name = "year_of_birth", nullable = false)
-    private Date yearOfBirth;
+    private Date dateOfBirth;
 
     @Column(name = "location", nullable = false)
     private String location;
 
-    @Column(name = "passport_id", nullable = false, unique = true)
-    private String passportId;
+    @Column(name = "social_security_number", nullable = false, unique = true)
+    private String socialSecurityNumber;
 
-    @Column(name = "check_give_vote", nullable = false)
-    private Boolean checkGiveVote;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    public User(String firstName, String lastName, Date yearOfBirth, String location, String passportId, Boolean checkGiveVote) {
+    public User(String firstName, String lastName, Date dateOfBirth, String location, String socialSecurityNumber, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.yearOfBirth = yearOfBirth;
+        this.dateOfBirth = dateOfBirth;
         this.location = location;
-        this.passportId = passportId;
-        this.checkGiveVote = checkGiveVote;
+        this.socialSecurityNumber = socialSecurityNumber;
+        this.password = password;
     }
 }
 

@@ -15,9 +15,9 @@ public class DefaultMayorCandidateVotesService implements MayorCandidateVotesSer
     private final MayorCandidateService mayorCandidateService;
 
     @Override
-    public Optional<MayorCandidateVotes> update(Integer id) {
+    public Optional<MayorCandidateVotes> updateVotesCount(Integer mayorCandidateId) {
 
-        Optional<MayorCandidateVotes> mayorCandidateVotesOptional = mayorCandidateVotesRepository.findById(id);
+        Optional<MayorCandidateVotes> mayorCandidateVotesOptional = mayorCandidateVotesRepository.findById(mayorCandidateId);
         MayorCandidateVotes mayorCandidateVotes = mayorCandidateVotesOptional.get();
 
         mayorCandidateVotes.setVotesCount(mayorCandidateVotes.getVotesCount() + 1);

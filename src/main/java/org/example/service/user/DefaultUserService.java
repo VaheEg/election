@@ -15,7 +15,7 @@ public class DefaultUserService implements UserService {
 
     private final UserRepository userRepository;
 
-    //todo add logs, change optionals
+    //todo add logs
 
     @Override
     public User create(CreateUserParams params) {
@@ -25,8 +25,8 @@ public class DefaultUserService implements UserService {
                 params.lastName(),
                 params.yearOfBirth(),
                 params.location(),
-                params.passwordId(),
-                true
+                params.socialSecurityNumber(),
+                params.password()
         );
 
         return userRepository.save(user);
@@ -44,7 +44,8 @@ public class DefaultUserService implements UserService {
         user.setFirstName(params.firstName());
         user.setLastName(params.lastName());
         user.setLocation((params.location()));
-        user.setPassportId(params.passportId());
+        user.setSocialSecurityNumber(params.socialSecurityNumber());
+        user.setPassword(params.password());
 
         return Optional.of(userRepository.save(user));
     }

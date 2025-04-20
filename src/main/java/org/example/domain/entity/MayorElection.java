@@ -1,11 +1,13 @@
 package org.example.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.util.Date;
 
 @Data
 @Entity
+@AllArgsConstructor
 @Table(name = "MAYOR_ELECTIONS")
 public class MayorElection {
 

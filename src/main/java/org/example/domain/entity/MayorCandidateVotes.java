@@ -12,12 +12,13 @@ public class MayorCandidateVotes {
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "MAYOR_CANDIDATE_VOTES_ID_GENERATOR"
+            generator = "MAYOR_CANDIDATE_VOTES_ID_SEQUENCE"
     )
-    @SequenceGenerator(name = "MAYOR_CANDIDATE_VOTES_GENERATOR")
+    @SequenceGenerator(name = "MAYOR_CANDIDATE_VOTES_ID_SEQUENCE")
     private Integer id;
 
     @Column(name = "mayor_candidate_id", nullable = false, unique = true)
+    @ManyToOne
     private MayorCandidate mayorCandidate;
 
     @Column(name = "votes_count", nullable = false)

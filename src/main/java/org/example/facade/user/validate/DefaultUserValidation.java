@@ -1,11 +1,13 @@
 package org.example.facade.user.validate;
 
 import lombok.RequiredArgsConstructor;
+import org.example.domain.entity.MayorElectionUser;
 import org.example.domain.request.user.UserCreateRequestDto;
 import org.example.domain.request.user.UserGiveVoteRequestDto;
 import org.example.domain.request.user.UserUpdateRequestDto;
 import org.example.domain.response.GenericResponseDto;
 import org.example.error.Error;
+import org.example.service.mayorElectionUser.MayorElectionUserService;
 import org.example.service.user.UserService;
 import org.example.utils.RegexUtils;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class DefaultUserValidation implements UserValidation {
 
     private final UserService userService;
+    private final MayorElectionUserService mayorElectionUserService;
 
     @Override
     public final Optional<Error> creteRequestDtoValidate(UserCreateRequestDto params) {
@@ -47,10 +50,15 @@ public class DefaultUserValidation implements UserValidation {
             return Optional.of(error);
         }
 
-        if(params.passportId() == null) {
+        if(params.socialSecurityNumber() == null) {
             Error error = Error.FILED_IS_NULL;
             error.setMessage("Passport id must not be null");
             return Optional.of(error);
+        }
+
+        if(params.password() == null) {
+            Error error = Error.FILED_IS_NULL;
+            error.setMessage("Password must not be null");
         }
 
         return Optional.empty();
@@ -82,10 +90,15 @@ public class DefaultUserValidation implements UserValidation {
             return Optional.of(error);
         }
 
-        if(params.passportId() == null) {
+        if(params.socialSecurityNumber() == null) {
             Error error = Error.FILED_IS_NULL;
-            error.setMessage("Passport id must not be null");
+            error.setMessage("Social security number must not be null");
             return Optional.of(error);
+        }
+
+        if(params.password() == null) {
+            Error error = Error.FILED_IS_NULL;
+            error.setMessage("Password must not be null");
         }
 
         return Optional.empty();
@@ -107,7 +120,7 @@ public class DefaultUserValidation implements UserValidation {
 
         if(id == null) {
             Error error = Error.ID_IS_NULL;
-            return new GenericResponseDto<>(error);
+            return new GenericResponseDto<>(error); //todo watch again
         }
 
         userService.deleteById(id);
@@ -135,17 +148,27 @@ public class DefaultUserValidation implements UserValidation {
             return Optional.of(error);
         }
         var user = userOptional.get();
-        var yearOfBirthUser = user.getYearOfBirth();
+        var yearOfBirthUser = user.getDateOfBirth();
 
-        LocalDate localDate = yearOfBirthUser.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDate = yearOfBirthUser.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); //todo change Date to LocalDAte
 
         if(Period.between(localDate, LocalDate.now()).getYears() < 18 ) {
             Error error = Error.USER_AGE_IS_LESS_THEN_18;
             return Optional.of(error);
         }
 
-        if(!user.getCheckGiveVote()) {
-            Error error = Error.USER_ALREADY_VOTED;                             //todo why i need polling station if everything is online ???????
+        final Optional<MayorElectionUser> mayorElectionUserOptional = mayorElectionUserService
+                .findByUserIdAndMayorElectionId(userGiveVoteRequestDto.userId(),
+                                                userGiveVoteRequestDto.mayorCandidateId());
+
+        if(mayorElectionUserOptional.isEmpty()) {
+            Error error = Error.NOT_FOUND;
+            error.setMessage("MayorElectionUser not found");
+            return Optional.of(error);
+        }
+
+        if(!mayorElectionUserOptional.get().getCheckGiveVote()) {
+            Error error = Error.USER_ALREADY_VOTED;                  //todo why i need polling station if everything is online ???????
             return Optional.of(error);
         }
 

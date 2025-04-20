@@ -10,6 +10,7 @@ import org.example.domain.response.user.UserResponseDto;
 import org.example.error.Error;
 import org.example.facade.user.map.UserMapping;
 import org.example.facade.user.validate.UserValidation;
+import org.example.service.mayorCandidateVotes.MayorCandidateVotesService;
 import org.example.service.user.UserService;
 import org.example.service.user.params.CreateUserParams;
 import org.example.service.user.params.UpdateUserParams;
@@ -22,13 +23,20 @@ public class DefaultUserFacade implements UserFacade {
     private final UserValidation userValidation;
     private final UserService userService;
     private final UserMapping userMapping;
+    private final MayorCandidateVotesService mayorCandidateVotesService;
+
 
     @Override
     public GenericResponseDto<UserResponseDto> create(UserCreateRequestDto createDto) {
 
-        final var validateCreateOptional = userValidation.creteRequestDtoValidate(createDto);
-        if(validateCreateOptional.isPresent()) {
-            return new GenericResponseDto<>(validateCreateOptional.get());
+        if(createDto == null) {
+            Error error = Error.REQUEST_DTO_IS_NULL;
+            return new GenericResponseDto<>(error);
+        }
+
+        final var createValidatedOptional = userValidation.creteRequestDtoValidate(createDto);
+        if(createValidatedOptional.isPresent()) {
+            return new GenericResponseDto<>(createValidatedOptional.get());
         }
 
         final var user = userService.create(new CreateUserParams(
@@ -36,8 +44,8 @@ public class DefaultUserFacade implements UserFacade {
                 createDto.lastName(),
                 createDto.yearOfBirth(),
                 createDto.location(),
-                createDto.passportId()
-
+                createDto.socialSecurityNumber(),
+                createDto.password()
         ));
 
         final var responseDto = userMapping.map(user);
@@ -48,9 +56,14 @@ public class DefaultUserFacade implements UserFacade {
     @Override
     public GenericResponseDto<UserResponseDto> update(UserUpdateRequestDto updateDto, Integer id) {
 
-        final var validateUpdateOptional = userValidation.updateRequestDtoValidate(updateDto, id);
-        if(validateUpdateOptional.isPresent()) {
-            return new GenericResponseDto<>(validateUpdateOptional.get());
+        if(updateDto == null) {
+            Error error = Error.REQUEST_DTO_IS_NULL;
+            return new GenericResponseDto<>(error);
+        }
+
+        final var updateValidatedOptional = userValidation.updateRequestDtoValidate(updateDto, id);
+        if(updateValidatedOptional.isPresent()) {
+            return new GenericResponseDto<>(updateValidatedOptional.get());
         }
 
         var userOptional = userService.update(new UpdateUserParams(
@@ -58,7 +71,8 @@ public class DefaultUserFacade implements UserFacade {
                 updateDto.firstName(),
                 updateDto.lastName(),
                 updateDto.location(),
-                updateDto.passportId()
+                updateDto.socialSecurityNumber(),
+                updateDto.password()
         ));
 
         if(userOptional.isEmpty()) {
@@ -77,9 +91,9 @@ public class DefaultUserFacade implements UserFacade {
     @Override
     public GenericResponseDto<UserResponseDto> getById(Integer id) {
 
-        var validateGetById = userValidation.getByIdValidate(id);
-        if(validateGetById.isPresent()) {
-            return new GenericResponseDto<>(validateGetById.get());
+        var getByIdValidatedOptional = userValidation.getByIdValidate(id);
+        if(getByIdValidatedOptional.isPresent()) {
+            return new GenericResponseDto<>(getByIdValidatedOptional.get());
         }
 
         var userOptional = userService.getById(id);
@@ -103,12 +117,17 @@ public class DefaultUserFacade implements UserFacade {
     @Override
     public GenericResponseDto<MayorCandidateVotesResponseDto> giveVote(UserGiveVoteRequestDto userGiveVoteRequestDto) {
 
-        var giveVoteValidate = userValidation.giveVoteValidate(userGiveVoteRequestDto);
-        if(giveVoteValidate.isPresent()) {
-            return new GenericResponseDto<>(giveVoteValidate.get());
+        if(userGiveVoteRequestDto == null) {
+            Error error = Error.REQUEST_DTO_IS_NULL;
+            return new GenericResponseDto<>(error);
         }
 
-//        userService.update();
+        var giveVoteValidatedOptional = userValidation.giveVoteValidate(userGiveVoteRequestDto);
+        if(giveVoteValidatedOptional.isPresent()) {
+            return new GenericResponseDto<>(giveVoteValidatedOptional.get());
+        }
+
+        final var mayorCandidateVotesOptional = mayorCandidateVotesService.updateVotesCount(userGiveVoteRequestDto.mayorCandidateId());
 
         return null;
     }

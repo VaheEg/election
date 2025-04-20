@@ -4,5 +4,5 @@ import org.example.domain.entity.MayorCandidateVotes;
 import java.util.Optional;
 
 public interface MayorCandidateVotesService {
-    Optional<MayorCandidateVotes> update(Integer id);
+    Optional<MayorCandidateVotes> updateVotesCount(Integer mayorCandidateId);
 }
