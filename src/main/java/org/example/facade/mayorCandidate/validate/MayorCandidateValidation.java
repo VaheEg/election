@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface MayorCandidateValidation {
     Optional<Error> createValidate(Integer userId);
-    Optional<Error> getValidate(Integer id);
+    Optional<Error> getByIdValidate(Integer id);
     GenericResponseDto<Void> deleteValidate(Integer Id);
 }

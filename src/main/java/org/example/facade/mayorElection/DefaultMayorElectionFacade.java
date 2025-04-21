@@ -44,8 +44,6 @@ public class DefaultMayorElectionFacade implements MayorElectionFacade {
 
         final var deleteByIdValidatedOptional = mayorElectionValidation.deleteRequestDtoValidate(id);
 
-        mayorElectionService.deleteById(id);
-
         return new GenericResponseDto<>();
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -28,7 +29,7 @@ public class User {
     private String lastName;
 
     @Column(name = "year_of_birth", nullable = false)
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "location", nullable = false)
     private String location;
@@ -39,7 +40,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public User(String firstName, String lastName, Date dateOfBirth, String location, String socialSecurityNumber, String password) {
+    public User(String firstName, String lastName, LocalDate dateOfBirth, String location, String socialSecurityNumber, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

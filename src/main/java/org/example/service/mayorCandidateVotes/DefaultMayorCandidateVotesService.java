@@ -1,26 +1,34 @@
 package org.example.service.mayorCandidateVotes;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.domain.entity.MayorCandidateVotes;
 import org.example.respository.MayorCandidateVotesRepository;
-import org.example.service.mayorCandidate.MayorCandidateService;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DefaultMayorCandidateVotesService implements MayorCandidateVotesService {
 
     private final MayorCandidateVotesRepository mayorCandidateVotesRepository;
-    private final MayorCandidateService mayorCandidateService;
 
     @Override
     public Optional<MayorCandidateVotes> updateVotesCount(Integer mayorCandidateId) {
+        log.info("Updating mayor candidate's votes count for the provided mayor candidate's id- {} ", mayorCandidateId);
 
         Optional<MayorCandidateVotes> mayorCandidateVotesOptional = mayorCandidateVotesRepository.findById(mayorCandidateId);
-        MayorCandidateVotes mayorCandidateVotes = mayorCandidateVotesOptional.get();
+        if(mayorCandidateVotesOptional.isEmpty()) {
+            return Optional.empty();
+        }
 
+        MayorCandidateVotes mayorCandidateVotes = mayorCandidateVotesOptional.get();
         mayorCandidateVotes.setVotesCount(mayorCandidateVotes.getVotesCount() + 1);
-        return Optional.empty();
+
+        final var savedMayorCandidate = mayorCandidateVotesRepository.save(mayorCandidateVotes);
+
+        log.info("Successfully updated mayor candidate's votes count, mayor candidate votes - {}", savedMayorCandidate);
+        return Optional.of(savedMayorCandidate);
     }
 }

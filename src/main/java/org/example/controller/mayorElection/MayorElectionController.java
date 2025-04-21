@@ -7,5 +7,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface MayorElectionController {
     ResponseEntity<GenericResponseDto<MayorElectionResponseDto>> create(MayorElectionCreateRequestDto createDto);
-    ResponseEntity<GenericResponseDto<Void>> delete(Integer id);
+    ResponseEntity<GenericResponseDto<Void>> deleteById(Integer id);
 }

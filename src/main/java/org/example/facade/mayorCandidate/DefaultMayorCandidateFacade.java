@@ -5,7 +5,7 @@ import org.example.domain.entity.MayorCandidate;
 import org.example.domain.response.GenericResponseDto;
 import org.example.domain.response.mayorCandidate.MayorCandidateResponseDto;
 import org.example.error.Error;
-import org.example.facade.mayorCandidate.mapping.MayorCandidateMapping;
+import org.example.facade.mayorCandidate.map.MayorCandidateMapping;
 import org.example.facade.mayorCandidate.validate.MayorCandidateValidation;
 import org.example.service.mayorCandidate.MayorCandidateService;
 import org.example.service.mayorCandidate.params.CreateMayorCandidateParams;
@@ -45,7 +45,7 @@ public class DefaultMayorCandidateFacade implements MayorCandidateFacade {
     @Override
     public GenericResponseDto<MayorCandidateResponseDto> getById(Integer id) {
 
-        var getByIdValidatedOptional = mayorCandidateValidation.getValidate(id);
+        var getByIdValidatedOptional = mayorCandidateValidation.getByIdValidate(id);
         if(getByIdValidatedOptional.isPresent()) {
             return new GenericResponseDto<>(getByIdValidatedOptional.get());
         }

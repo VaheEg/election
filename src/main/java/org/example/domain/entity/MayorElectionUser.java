@@ -13,6 +13,7 @@ import lombok.Data;
 )
 public class MayorElectionUser {
 
+    @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "MAYOR_ELECTION_USERS_ID_SEQUENCE"
@@ -20,12 +21,12 @@ public class MayorElectionUser {
     @SequenceGenerator(name = "MAYOR_ELECTION_USERS_ID_SEQUENCE")
     private Integer id;
 
-    @Column(name = "mayor_election_id", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "mayor_election_id", nullable = false)
     private MayorElection mayorElection;
 
-    @Column(name = "user_id", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "check_give_vote", nullable = false)
@@ -34,5 +35,11 @@ public class MayorElectionUser {
     public MayorElectionUser(MayorElection mayorElection, User user) {
         this.mayorElection = mayorElection;
         this.user = user;
+    }
+
+    public MayorElectionUser(MayorElection mayorElection, User user, Boolean checkGiveVote) {
+        this.mayorElection = mayorElection;
+        this.user = user;
+        this.checkGiveVote = checkGiveVote;
     }
 }

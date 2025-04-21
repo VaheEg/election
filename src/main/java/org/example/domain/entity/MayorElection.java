@@ -25,10 +25,10 @@ public class MayorElection {
     @Column(name = "location", nullable = false)
     private String location;
 
-    @Column(name = "start", nullable = false)
+    @Column(name = "start_election", nullable = false)
     private final Date start;
 
-    @Column(name = "end", nullable = false)
+    @Column(name = "end_election", nullable = false)
     private final Date end;
 
     public MayorElection(String name, String location, Date start, Date end) {

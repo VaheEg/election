@@ -2,7 +2,6 @@ package org.example.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 @Data
 @Entity
@@ -17,8 +16,8 @@ public class MayorCandidateVotes {
     @SequenceGenerator(name = "MAYOR_CANDIDATE_VOTES_ID_SEQUENCE")
     private Integer id;
 
-    @Column(name = "mayor_candidate_id", nullable = false, unique = true)
     @ManyToOne
+    @JoinColumn(name = "mayor_candidate_id", nullable = false, unique = true)
     private MayorCandidate mayorCandidate;
 
     @Column(name = "votes_count", nullable = false)

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MayorElectionUserRepository extends JpaRepository<MayorElection, Integer> {
+public interface MayorElectionUserRepository extends JpaRepository<MayorElectionUser, Integer> {
 
     @Query(value = "SELECT * FROM MayorElectionUser WHERE user_id = ?1 and mayor_election_id.mayorElection = ?2",
-            nativeQuery = true
+           nativeQuery = true
     )
     Optional<MayorElectionUser> findByUserIdAndMayorCandidateId(Integer userId, Integer mayorCandidateId);
 }

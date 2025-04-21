@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface UserValidation {
 
-    Optional<Error> creteRequestDtoValidate(UserCreateRequestDto params);
-    Optional<Error> updateRequestDtoValidate(UserUpdateRequestDto params, Integer id);
+    Optional<Error> creteRequestDtoValidate(UserCreateRequestDto createDto);
+    Optional<Error> updateRequestDtoValidate(UserUpdateRequestDto updateDto, Integer id);
     Optional<Error> getByIdValidate(Integer id);
     GenericResponseDto<Void> deleteByIdValidate(Integer id);
     Optional<Error> giveVoteValidate(UserGiveVoteRequestDto userGiveVoteRequestDto);
