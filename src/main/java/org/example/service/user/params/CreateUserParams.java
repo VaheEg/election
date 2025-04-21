@@ -1,7 +1,6 @@
 package org.example.service.user.params;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public record CreateUserParams(
         String firstName,

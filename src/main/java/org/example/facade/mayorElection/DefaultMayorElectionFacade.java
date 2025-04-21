@@ -42,7 +42,7 @@ public class DefaultMayorElectionFacade implements MayorElectionFacade {
     @Override
     public GenericResponseDto<Void> deleteById(Integer id) {
 
-        final var deleteByIdValidatedOptional = mayorElectionValidation.deleteRequestDtoValidate(id);
+        mayorElectionValidation.deleteRequestDtoValidate(id);
 
         return new GenericResponseDto<>();
     }

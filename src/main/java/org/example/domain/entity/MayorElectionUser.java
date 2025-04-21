@@ -32,11 +32,6 @@ public class MayorElectionUser {
     @Column(name = "check_give_vote", nullable = false)
     private Boolean checkGiveVote;
 
-    public MayorElectionUser(MayorElection mayorElection, User user) {
-        this.mayorElection = mayorElection;
-        this.user = user;
-    }
-
     public MayorElectionUser(MayorElection mayorElection, User user, Boolean checkGiveVote) {
         this.mayorElection = mayorElection;
         this.user = user;
